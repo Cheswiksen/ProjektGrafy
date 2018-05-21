@@ -248,13 +248,13 @@ void Graf::KruskalMatrix()
 		}
 	}
 	int Suma = 0;
-	cout << endl << "Kruskal Macierz:" << endl;
-	for (list<pair<pair<int, int>, int>>::iterator it = Tree.begin(); it != Tree.end(); ++it)
-	{
-		cout << "(" << it->first.first << " " << it->first.second << ")" << "  " << it->second << endl;
-		Suma += it->second;
-	}
-	cout << "MST= " << Suma << endl;
+	//cout << endl << "Kruskal Macierz:" << endl;
+	//for (list<pair<pair<int, int>, int>>::iterator it = Tree.begin(); it != Tree.end(); ++it)
+	//{
+	//	cout << "(" << it->first.first << " " << it->first.second << ")" << "  " << it->second << endl;
+	//	Suma += it->second;
+	//}
+	//cout << "MST= " << Suma << endl;
 }
 
 void Graf::KruskalLista()
@@ -290,6 +290,106 @@ void Graf::KruskalLista()
 	cout << "MST= " << Suma << endl;
 }
 
+void Graf::DijkstraMatrix()
+{
+	int *Path;
+	Path = new int[sizeN];
+	int *koszt;
+	koszt = new int[sizeN];
+	bool *sptSet;
+	sptSet = new bool[sizeN];
+	for (int i = 0; i < sizeN; i++)
+		koszt[i] = INT_MAX, sptSet[i] = false;
+	koszt[start] = 0;
+	for (int count = 0; count < sizeN - 1; count++)
+	{
+		int u = minDistance(koszt, sptSet);
+		sptSet[u] = true;
+		for (int v = 0; v < sizeN; v++)
+			if (!sptSet[v] && Tab[u][v] != (-1) && koszt[u] != INT_MAX && (koszt[u] + Tab[u][v]) < koszt[v])
+			{
+				koszt[v] = koszt[u] + Tab[u][v];
+				Path[v] = u;
+			}
+
+	}
+	//wyswietlanie
+	cout << endl << "Dijkstra Matrix:" << endl << "wierzcholek | koszt" << endl;
+	for (int i = 0; i < sizeN; i++)
+		cout << setw(3) << i << "|" << setw(3) << koszt[i] << endl;
+	cout << "drogi:" << endl;
+	Path[start] = 0;
+	int K;
+	for (int i = 0; i < sizeN; i++)
+	{
+		cout << setw(3) << i << "|" << std::setw(3) << Path[i];
+		K = Path[i];
+		while (1)
+		{
+			if (K != start)
+			{
+				cout << std::setw(3) << Path[K];
+				K = Path[K];
+			}
+			else
+			{
+				break;
+			}
+		}
+		cout << endl;
+	}
+}
+
+void Graf::DijkstraLista()
+{
+	int *Path, u;
+	Path = new int[sizeN];
+	int *koszt;
+	koszt = new int[sizeN];
+	bool *sptSet;
+	sptSet = new bool[sizeN];
+	for (int i = 0; i < sizeN; i++)
+		koszt[i] = INT_MAX, sptSet[i] = false;
+	koszt[start] = 0;
+	for (int count = 0; count < sizeN - 1; count++)
+	{
+		u = minDistance(koszt, sptSet);
+		sptSet[u] = true;		
+		for (list<pair <int, int>>::iterator it = TabList[u].begin(); it != TabList[u].end(); ++it)
+		{
+			if (!sptSet[it->first] && koszt[u] != INT_MAX && (koszt[u] + it->second) < koszt[it->first])
+			{
+				koszt[it->first] = koszt[u] + it->second;
+				Path[it->first] = u;
+			}				
+		}
+	}
+	cout << endl << "Dijkstra Lista:" << endl << "wierzcholek | koszt" << endl;
+	for (int i = 0; i < sizeN; i++)
+		cout << setw(3) << i << "|" << setw(3) << koszt[i] << endl;
+	cout << "drogi:" << endl;
+	Path[start] = 0;
+	int K;
+	for (int i = 0; i < sizeN; i++)
+	{
+		cout << setw(3) << i << "|" << std::setw(3) << Path[i];
+		K = Path[i];
+		while (1)
+		{
+			if (K != start)
+			{
+				cout << std::setw(3) << Path[K];
+				K = Path[K];
+			}
+			else
+			{
+				break;
+			}
+		}
+		cout << endl;
+	}
+}
+
 bool Graf::isCycle(list<int> Vert, int S)
 {
 	for (list<int>::iterator it = Vert.begin(); it != Vert.end(); ++it)
@@ -316,4 +416,81 @@ void Graf::unite(int x, int y)
 	int fx = find(x);
 	int fy = find(y);
 	Fathers[fx] = fy;
+}
+
+int Graf::minDistance(int dist[], bool sptSet[])
+{
+	int min = INT_MAX, min_index;
+	for (int v = 0; v < sizeN; v++)
+		if (sptSet[v] == false && dist[v] <= min)
+			min = dist[v], min_index = v;
+	return min_index;	
+}
+
+void Graf::randGraf(int percent, int size)
+{
+	start = 0;
+	end = 2;
+	sizeE = 0;
+	sizeN = size;
+	init();
+	float edgesRatio = (float)percent / 100;
+	int maxEdges = edgesRatio * ((sizeN*(sizeN - 1)) / 2);
+	int edgesNumber = 0;
+	int randomWeight = rand() % 21 + 1;
+	int randomEdge1 = rand() % sizeN;
+	int randomEdge2 = rand() % sizeN;
+	// Algorytm Gawla-Kaluzy
+	srand(time(NULL));
+	for (int i = 0; i < sizeN; i++)
+	{
+		// Tworzenie spojnego szkieletu o duzych wagach
+		randomWeight = (rand() % 21 + 1) + 90;
+		//Tab[i][(i + 1) % sizeN] = randomWeight;
+		randomEdge1 = i;
+		randomEdge2 = (i + 1) % sizeN;
+		if (Tab[randomEdge2][randomEdge1] != (-1) || Tab[randomEdge1][randomEdge2] != (-1))
+		{
+			i--;
+			continue;
+		}
+		edgesNumber++;
+		sizeE++;
+		this->Tab[randomEdge1][randomEdge2] = randomWeight;
+		this->TabN[randomEdge1][randomEdge2] = randomWeight;
+		this->TabN[randomEdge2][randomEdge1] = randomWeight;
+		this->TabList[randomEdge1].push_back(make_pair(randomEdge2, randomWeight));
+		this->TabListN[randomEdge1].push_back(make_pair(randomEdge2, randomWeight));
+		this->TabListN[randomEdge2].push_back(make_pair(randomEdge1, randomWeight));
+	}
+
+	while (edgesNumber < maxEdges)
+	{
+		// Pozostale krawedzie o malych wagach (10 +/-10) sa tworzone losowo
+		randomWeight = rand() % 21 + 1;
+		randomEdge1 = rand() % sizeN;
+		randomEdge2 = rand() % sizeN;
+		if (randomEdge1 == randomEdge2)
+			// Jezeli wylosowano dwa razy ten sam wierzcholek, zamiast losowac od nowa...
+			// ...drugi zwiekszamy o dwa - nie o jeden, bo takie krawedzie juz mamy...
+			// ...dzieki temu powinnismy zaoszczedzic troche czasu
+			randomEdge2 = (randomEdge2 + 2) % sizeN;
+
+		
+
+		if (Tab[randomEdge2][randomEdge1] != (-1) || Tab[randomEdge1][randomEdge2] != (-1))
+		{
+			continue;
+		}
+		this->Tab[randomEdge1][randomEdge2] = randomWeight;
+		this->TabN[randomEdge1][randomEdge2] = randomWeight;
+		this->TabN[randomEdge2][randomEdge1] = randomWeight;
+		this->TabList[randomEdge1].push_back(make_pair(randomEdge2, randomWeight));
+		this->TabListN[randomEdge1].push_back(make_pair(randomEdge2, randomWeight));
+		this->TabListN[randomEdge2].push_back(make_pair(randomEdge1, randomWeight));
+		edgesNumber++;
+		sizeE++;
+
+
+	}
 }

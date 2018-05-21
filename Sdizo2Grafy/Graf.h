@@ -1,8 +1,11 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <stdio.h>
 #include <list>
 #include <iomanip>
+#include <vector>
+#include <stack>#include <ctime>#include <windows.h>
 #pragma once
 
 using namespace std;
@@ -22,9 +25,13 @@ public:
 	void PrimLista();
 	void KruskalMatrix();
 	void KruskalLista();
+	void DijkstraMatrix();
+	void DijkstraLista();
 	bool isCycle(list<int> Vert, int S);
 	int find(int x);
 	void unite(int x, int y);
+	int minDistance(int dist[], bool sptSet[]);
+	void randGraf(int percent, int size);
 private:
 	int **Tab;		//matrix oryginalny
 	int **TabN;		//matrix nieskierowany
@@ -35,5 +42,6 @@ private:
 	int start;
 	int end;
 	int *Fathers;
+	bool * BeenThere;
 };
 
