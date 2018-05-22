@@ -166,7 +166,7 @@ void Graf::PrimMatrix()
 		//Tree.push_back(make_pair(make_pair(Min.first.first, Min.first.second), Min.second));
 		Tree.push_back(Min);
 	}
-	/*cout << endl << "Prim Macierz: " << endl;
+	cout << endl << "Prim Macierz: " << endl;
 	int Suma = 0;
 	for (list<pair<pair<int, int>, int>>::iterator it = Tree.begin(); it != Tree.end(); ++it)
 	{
@@ -174,7 +174,7 @@ void Graf::PrimMatrix()
 		Suma += it->second;
 	}
 
-	cout << endl << "MST= " << Suma << endl;*/
+	cout << endl << "MST= " << Suma << endl;
 }
 
 void Graf::PrimLista()
@@ -213,14 +213,14 @@ void Graf::PrimLista()
 		Vert.push_back(Min.first.second);
 		Tree.push_back(Min);
 	}
-	/*cout << endl << "Prim Lista: " << endl;
+	cout << endl << "Prim Lista: " << endl;
 	int Suma = 0;
 	for (list<pair<pair<int, int>, int>>::iterator it = Tree.begin(); it != Tree.end(); ++it)
 	{
 		cout << endl << "(" << it->first.first << " " << it->first.second << ") " << it->second;
 		Suma += it->second;
 	}
-	cout << endl << "MST= " << Suma << endl;*/
+	cout << endl << "MST= " << Suma << endl;
 }
 
 void Graf::KruskalMatrix()
@@ -248,13 +248,13 @@ void Graf::KruskalMatrix()
 		}
 	}
 	int Suma = 0;
-	//cout << endl << "Kruskal Macierz:" << endl;
-	//for (list<pair<pair<int, int>, int>>::iterator it = Tree.begin(); it != Tree.end(); ++it)
-	//{
-	//	cout << "(" << it->first.first << " " << it->first.second << ")" << "  " << it->second << endl;
-	//	Suma += it->second;
-	//}
-	//cout << "MST= " << Suma << endl;
+	cout << endl << "Kruskal Macierz:" << endl;
+	for (list<pair<pair<int, int>, int>>::iterator it = Tree.begin(); it != Tree.end(); ++it)
+	{
+		cout << "(" << it->first.first << " " << it->first.second << ")" << "  " << it->second << endl;
+		Suma += it->second;
+	}
+	cout << "MST= " << Suma << endl;
 }
 
 void Graf::KruskalLista()
@@ -280,14 +280,14 @@ void Graf::KruskalLista()
 			unite(it->first.first, it->first.second);
 		}
 	}
-	/*int Suma = 0;
+	int Suma = 0;
 	cout << endl << "Kruskal Lista:" << endl;
 	for (list<pair<pair<int, int>, int>>::iterator it = Tree.begin(); it != Tree.end(); ++it)
 	{
 		cout << "(" << it->first.first << " " << it->first.second << ")" << "  " << it->second << endl;
 		Suma += it->second;
 	}
-	cout << "MST= " << Suma << endl;*/
+	cout << "MST= " << Suma << endl;
 }
 
 void Graf::DijkstraMatrix()
@@ -314,7 +314,7 @@ void Graf::DijkstraMatrix()
 
 	}
 	//wyswietlanie
-	/*cout << endl << "Dijkstra Matrix:" << endl << "wierzcholek | koszt" << endl;
+	cout << endl << "Dijkstra Matrix:" << endl << "wierzcholek | koszt" << endl;
 	for (int i = 0; i < sizeN; i++)
 		cout << setw(3) << i << "|" << setw(3) << koszt[i] << endl;
 	cout << "drogi:" << endl;
@@ -337,7 +337,7 @@ void Graf::DijkstraMatrix()
 			}
 		}
 		cout << endl;
-	}*/
+	}
 }
 
 void Graf::DijkstraLista()
@@ -364,7 +364,7 @@ void Graf::DijkstraLista()
 			}				
 		}
 	}
-	/*cout << endl << "Dijkstra Lista:" << endl << "wierzcholek | koszt" << endl;
+	cout << endl << "Dijkstra Lista:" << endl << "wierzcholek | koszt" << endl;
 	for (int i = 0; i < sizeN; i++)
 		cout << setw(3) << i << "|" << setw(3) << koszt[i] << endl;
 	cout << "drogi:" << endl;
@@ -387,7 +387,7 @@ void Graf::DijkstraLista()
 			}
 		}
 		cout << endl;
-	}*/
+	}
 }
 
 bool Graf::isCycle(list<int> Vert, int S)
