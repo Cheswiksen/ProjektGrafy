@@ -96,6 +96,10 @@ void Graf::init()
 
 void Graf::showMatrix()
 {
+	if (sizeN <= 0)
+	{
+		return;
+	}
 	cout << endl << "Graf oryginalny:\n";
 	for (int i = 0; i < this->sizeN; i++)
 	{
@@ -118,6 +122,10 @@ void Graf::showMatrix()
 
 void Graf::showList()
 {
+	if (sizeN <= 0)
+	{
+		return;
+	}
 	cout << endl << "Lista sasiedztwa" << endl;
 	for (int i = 0; i < sizeN; i++)
 	{
@@ -130,6 +138,10 @@ void Graf::showList()
 
 void Graf::PrimMatrix()
 {
+	if (sizeN <= 0)
+	{
+		return;
+	}
 	list<int> Vert;
 	pair<pair<int, int>, int> Min;
 	Min.second = INT_MAX;
@@ -179,6 +191,10 @@ void Graf::PrimMatrix()
 
 void Graf::PrimLista()
 {
+	if (sizeN <= 0)
+	{
+		return;
+	}
 	list<int> Vert;
 	pair<pair<int, int>, int> Min; //<from, to> waight
 	Min.second = INT_MAX;
@@ -225,6 +241,10 @@ void Graf::PrimLista()
 
 void Graf::KruskalMatrix()
 {
+	if (sizeN <= 0)
+	{
+		return;
+	}
 	for (int i = 0; i < sizeN; i++)
 		Fathers[i] = i;
 	list<pair<pair<int, int>, int>> Listed; //<<z, do> waga>
@@ -259,6 +279,10 @@ void Graf::KruskalMatrix()
 
 void Graf::KruskalLista()
 {
+	if (sizeN <= 0)
+	{
+		return;
+	}
 	for (int i = 0; i < sizeN; i++)
 		Fathers[i] = i;
 	list<pair<pair<int, int>, int>> Listed; //<<z, do> waga>
@@ -292,6 +316,11 @@ void Graf::KruskalLista()
 
 void Graf::DijkstraMatrix()
 {
+	if (sizeN <= 0)
+	{
+		return;
+	}
+	start = 0;
 	int *Path;
 	Path = new int[sizeN];
 	int *koszt;
@@ -342,6 +371,11 @@ void Graf::DijkstraMatrix()
 
 void Graf::DijkstraLista()
 {
+	if (sizeN <= 0)
+	{
+		return;
+	}
+	start = 0;
 	int *Path, u;
 	Path = new int[sizeN];
 	int *koszt;
